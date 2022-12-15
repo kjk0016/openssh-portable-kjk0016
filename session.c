@@ -1044,7 +1044,7 @@ do_setup_env(struct ssh *ssh, Session *s, const char *shell)
 	read_etc_default_login(&env, &envsize, pw->pw_uid);
 	path = child_get_env(env, "PATH");
 #  endif /* HAVE_ETC_DEFAULT_LOGIN */
-	if (path == NULL || *path == '\0') {
+	if (*path == NULL || *path == '\0') {
 		child_set_env(&env, &envsize, "PATH",
 		    s->pw->pw_uid == 0 ?  SUPERUSER_PATH : _PATH_STDPATH);
 	}
