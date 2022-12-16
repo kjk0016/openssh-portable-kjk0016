@@ -34,7 +34,7 @@
  */
 
 #include "includes.h"
-
+#include <pthread.h> //this was added
 #include <sys/types.h>
 #ifdef HAVE_SYS_STAT_H
 # include <sys/stat.h>
@@ -1286,7 +1286,10 @@ do_nologin(struct passwd *pw)
 		return;
 	nl = def_nl;
 #endif
+	pthread_mutex_t lock; //this was added
+	pthread_mutex_lock(&lock); //this was added
 	if (stat(nl, &sb) == -1)
+		pthread_mutex_unlock(&lock); //this was added
 		return;
 
 	/* /etc/nologin exists.  Print its contents if we can and exit. */
@@ -1296,6 +1299,7 @@ do_nologin(struct passwd *pw)
 			fputs(buf, stderr);
 		fclose(f);
 	}
+	pthread_mutex_unlock(&lock);
 	exit(254);
 }
 
