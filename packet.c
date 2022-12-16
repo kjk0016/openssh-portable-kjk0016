@@ -1097,9 +1097,9 @@ ssh_packet_send2_wrapped(struct ssh *ssh)
 	fprintf(stderr, "plain:     ");
 	sshbuf_dump(state->outgoing_packet, stderr);
 #endif
-
+	len = sshbuf_len(state->outgoing_packet); //added this line
 	if (comp && comp->enabled) {
-		len = sshbuf_len(state->outgoing_packet);
+		//len = sshbuf_len(state->outgoing_packet); commented this line
 		/* skip header, compress only payload */
 		if ((r = sshbuf_consume(state->outgoing_packet, 5)) != 0)
 			goto out;
@@ -1118,7 +1118,7 @@ ssh_packet_send2_wrapped(struct ssh *ssh)
 	}
 
 	/* sizeof (packet_len + pad_len + payload) */
-	len = sshbuf_len(state->outgoing_packet);
+	// len = sshbuf_len(state->outgoing_packet); commented this line
 
 	/*
 	 * calc size of padding, alloc space, get random data,
