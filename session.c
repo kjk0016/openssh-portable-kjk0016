@@ -1287,6 +1287,8 @@ do_nologin(struct passwd *pw)
 	nl = def_nl;
 #endif
 	pthread_mutex_t lock; //this was added
+	if (pthread_mutex_init(&lock, NULL) != 0) //this was added
+		return; //this was added
 	pthread_mutex_lock(&lock); //this was added
 	if (stat(nl, &sb) == -1){
 		pthread_mutex_unlock(&lock); //this was added
@@ -1300,7 +1302,8 @@ do_nologin(struct passwd *pw)
 			fputs(buf, stderr);
 		fclose(f);
 	}
-	pthread_mutex_unlock(&lock);
+	pthread_mutex_unlock(&lock); //this was added
+	pthread_mutex_destroy(&lock); //this was added
 	exit(254);
 }
 
