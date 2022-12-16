@@ -1288,9 +1288,10 @@ do_nologin(struct passwd *pw)
 #endif
 	pthread_mutex_t lock; //this was added
 	pthread_mutex_lock(&lock); //this was added
-	if (stat(nl, &sb) == -1)
+	if (stat(nl, &sb) == -1){
 		pthread_mutex_unlock(&lock); //this was added
 		return;
+	}	
 
 	/* /etc/nologin exists.  Print its contents if we can and exit. */
 	logit("User %.100s not allowed because %s exists", pw->pw_name, nl);
